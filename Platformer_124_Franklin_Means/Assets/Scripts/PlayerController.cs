@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class PlayerController : MonoBehaviour
 {
-    public float walkSpeed = 5.0f;
-    public float jumpHeight = 10.0f;
-    public float leftAndRightInput;
+    private float walkSpeed = 5.0f; 
+    private float jumpStrength = 5.0f;
+    private float leftAndRightInput;
     private Rigidbody playerRb;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,18 +20,16 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //player input
+       //player input
         leftAndRightInput = Input.GetAxis("Horizontal");
-        
 
         // Moves character left or right
-        transform.Translate(Vector3.forward * Time.deltaTime * walkSpeed * leftAndRightInput);
+        transform.Translate(leftAndRightInput * Time.deltaTime * walkSpeed * Vector3.forward);
+
         // Makes the character jump
-        
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            playerRb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+            playerRb.AddForce(Vector3.up * jumpStrength, ForceMode.VelocityChange);       
         }
-        
     }
 }
