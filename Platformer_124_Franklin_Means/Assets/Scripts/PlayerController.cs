@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private float jumpStrength = 5.0f;
     private float leftAndRightInput;
     private Rigidbody playerRb;
+    public bool isOnGround = true; 
 
     // Start is called before the first frame update
     void Start()
@@ -27,9 +28,14 @@ public class PlayerController : MonoBehaviour
         transform.Translate(leftAndRightInput * Time.deltaTime * walkSpeed * Vector3.forward);
 
         // Makes the character jump
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isOnGround) 
         {
-            playerRb.AddForce(Vector3.up * jumpStrength, ForceMode.VelocityChange);       
+            playerRb.AddForce(Vector3.up * jumpStrength, ForceMode.VelocityChange);
+            isOnGround = false;
         }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        isOnGround = true; // prevents double jumping. lines 13, 31, 34,and 39
     }
 }
